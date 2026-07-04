@@ -310,45 +310,87 @@ function updateStatusBadge(state, text) {
 }
 
 // --- Auto Detect Fastest Instance ---
+async function pingInstance(url) {
+    const cleanUrl = url.replace(/\/$/, '');
+    const start = performance.now();
+    try {
+        // Try the official serverInfo endpoint which is CORS-friendly and extremely lightweight
+        const res = await fetch(`${cleanUrl}/api/serverInfo`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                ...(appState.settings.apiKey ? { 'Authorization': `Api-Key ${appState.settings.apiKey}` } : {})
+            },
+            signal: AbortSignal.timeout(2500)
+        });
+        
+        if (res.ok) {
+            const latency = performance.now() - start;
+            return { url, latency, ok: true };
+        }
+    } catch (e) {
+        // Fall through to fallback
+    }
+    
+    try {
+        // Fallback: ping root with no-cors to measure connection latency without CORS blocking
+        const startFallback = performance.now();
+        await fetch(`${cleanUrl}/`, {
+            method: 'GET',
+            mode: 'no-cors',
+            signal: AbortSignal.timeout(2000)
+        });
+        const latency = performance.now() - startFallback;
+        return { url, latency, ok: true };
+    } catch (e) {
+        return { url, latency: Infinity, ok: false };
+    }
+}
+
 async function autoDetectFastestInstance() {
-    showToast('Testing active Cobalt nodes...', 'info');
+    showToast('Scanning active Cobalt nodes in parallel...', 'info');
     DOM.autoDetectInstanceBtn.disabled = true;
     DOM.autoDetectInstanceBtn.textContent = '⌛ Testing...';
     
-    let fastestUrl = '';
-    let minLatency = 99999;
+    // Test all instances concurrently
+    const testList = [...new Set([
+        appState.settings.instanceUrl,
+        'https://api.cobalt.tools',
+        ...appState.instancesList
+    ])].filter(Boolean);
     
-    // Test top 8 instances from list
-    const testList = [...new Set([appState.settings.instanceUrl, 'https://api.cobalt.tools', ...appState.instancesList])].slice(0, 8);
-    
-    for (const url of testList) {
-        const cleanUrl = url.replace(/\/$/, '');
-        const start = performance.now();
-        try {
-            const res = await fetch(`${cleanUrl}/`, {
-                method: 'GET',
-                signal: AbortSignal.timeout(2000) // Quick timeout
-            });
-            const latency = performance.now() - start;
-            if (res.status >= 200 && res.status < 500 && latency < minLatency) {
-                minLatency = latency;
-                fastestUrl = url;
-            }
-        } catch (e) {
-            // Failed
+    try {
+        const pingPromises = testList.map(url => pingInstance(url));
+        const results = await Promise.all(pingPromises);
+        
+        const successful = results.filter(r => r.ok && r.latency < Infinity);
+        successful.sort((a, b) => a.latency - b.latency);
+        
+        if (successful.length > 0) {
+            const best = successful[0];
+            const fastestUrl = best.url;
+            const latency = Math.round(best.latency);
+            
+            DOM.settingsInstanceUrl.value = fastestUrl;
+            DOM.instanceQuickSelect.value = fastestUrl;
+            
+            // Instantly apply and persist settings
+            appState.settings.instanceUrl = fastestUrl;
+            appState.activeInstance = fastestUrl;
+            localStorage.setItem('aiodown_settings', JSON.stringify(appState.settings));
+            applySettingsToUI();
+            
+            showToast(`Auto-selected fastest: ${new URL(fastestUrl).hostname} (${latency}ms)`, 'success');
+            checkInstanceStatus(fastestUrl);
+        } else {
+            showToast('No responsive instances found! Using default.', 'error');
         }
-    }
-    
-    DOM.autoDetectInstanceBtn.disabled = false;
-    DOM.autoDetectInstanceBtn.textContent = '⚡ Find Best';
-    
-    if (fastestUrl) {
-        DOM.settingsInstanceUrl.value = fastestUrl;
-        DOM.instanceQuickSelect.value = fastestUrl;
-        showToast(`Auto-selected fastest: ${new URL(fastestUrl).hostname} (${Math.round(minLatency)}ms)`, 'success');
-        checkInstanceStatus(fastestUrl);
-    } else {
-        showToast('No responsive instances found! Using default.', 'error');
+    } catch (err) {
+        console.error('Error auto-detecting fastest instance:', err);
+        showToast('Error during auto-detection scan.', 'error');
+    } finally {
+        DOM.autoDetectInstanceBtn.disabled = false;
+        DOM.autoDetectInstanceBtn.textContent = '⚡ Find Best';
     }
 }
 
@@ -399,8 +441,12 @@ function initEventListeners() {
     });
     
     DOM.instanceQuickSelect.addEventListener('change', () => {
-        DOM.settingsInstanceUrl.value = DOM.instanceQuickSelect.value;
-        checkInstanceStatus(DOM.instanceQuickSelect.value);
+        const val = DOM.instanceQuickSelect.value;
+        DOM.settingsInstanceUrl.value = val;
+        appState.settings.instanceUrl = val;
+        appState.activeInstance = val;
+        localStorage.setItem('aiodown_settings', JSON.stringify(appState.settings));
+        checkInstanceStatus(val);
     });
     
     DOM.autoDetectInstanceBtn.addEventListener('click', autoDetectFastestInstance);
