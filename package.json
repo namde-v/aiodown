@@ -1,0 +1,21 @@
+{
+  "name": "aiodown",
+  "version": "1.0.0",
+  "description": "Ultimate client-side social media media downloader powered by the free Cobalt API",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server . -p 3000 -o"
+  },
+  "keywords": [
+    "downloader",
+    "cobalt",
+    "youtube",
+    "tiktok",
+    "instagram",
+    "twitter",
+    "facebook",
+    "client-side"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AioDown — Ultimate Social Media Media Downloader</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Blur Orbs -->
+    <div class="blur-orb orb-1"></div>
+    <div class="blur-orb orb-2"></div>
+    <div class="blur-orb orb-3"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-icon">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 12V7H11V12H8L12 16L16 12H13Z" fill="url(#logoGradient)"/>
+                    <defs>
+                        <linearGradient id="logoGradient" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#8B5CF6" />
+                            <stop offset="100%" stop-color="#06B6D4" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span class="logo-text">Aio<span class="glow-text">Down</span></span>
+            </div>
+            
+            <div class="header-actions">
+                <!-- Instance Status Badge -->
+                <div class="status-badge" id="headerStatusBadge">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Checking...</span>
+                </div>
+                
+                <!-- Settings Trigger Button -->
+                <button class="icon-btn" id="openSettingsBtn" aria-label="Open Settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Downloader Main Section -->
+            <section class="downloader-section card">
+                <div class="section-header">
+                    <h1>Ultimate Media Downloader</h1>
+                    <p>Download video, audio, and photo slides from your favorite social media platforms. Fast, free, and secure.</p>
+                </div>
+
+                <!-- Input Box Container -->
+                <div class="input-wrapper">
+                    <div class="brand-indicator" id="brandIndicator">
+                        <!-- Default Link Icon -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="brand-icon active" id="icon-default">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                        </svg>
+                        
+                        <!-- Dynamic Brands (Hidden by default, shown via JS classes) -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="brand-icon" id="icon-youtube" style="color: #FF0000;">
+                            <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.508 9.388.508 9.388.508s7.517 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="brand-icon" id="icon-tiktok" style="color: #00f2fe;">
+                            <path d="M12.53.086c.3-.086.61-.086.91 0A7.21 7.21 0 0 0 19 5.3a.62.62 0 0 1-.3.51 1.94 1.94 0 0 1-.72.23 7.8 7.8 0 0 1-5.11-1.63V16.5a6 6 0 1 1-7.23-5.88c.45-.1 1.05-.18 1.45.1.33.23.42.66.42 1.07a3.86 3.86 0 1 0 3.36 3.79V.65c0-.28.16-.53.42-.61l.44.046z"/>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="brand-icon" id="icon-instagram" style="color: #E1306C;">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="brand-icon" id="icon-twitter" style="color: #1DA1F2;">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="brand-icon" id="icon-facebook" style="color: #1877F2;">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="brand-icon" id="icon-reddit" style="color: #FF4500;">
+                            <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-.321.821c.829.576 1.385 1.411 1.48 2.37.165-.035.335-.054.51-.054.964 0 1.75.784 1.75 1.748 0 .72-.439 1.34-1.071 1.603.02.193.03.388.03.585 0 2.87-3.483 5.207-7.785 5.207-4.3 0-7.785-2.336-7.785-5.207 0-.197.01-.393.03-.585A1.737 1.737 0 0 1 4.3 11.238c0-.964.786-1.748 1.75-1.748.176 0 .346.019.512.054.095-.959.65-1.794 1.48-2.37a1.242 1.242 0 0 1-.322-.821c0-.688.562-1.25 1.25-1.25.46 0 .86.25 1.085.62.85-.3 1.805-.475 2.83-.495l.595-2.8 1.95.415c.015.54.455.975 1.005.975a1 1 0 0 0 1-1c0-.55-.45-1-1-1-.485 0-.895.345-.98.81l-2.155-.455c-.09-.02-.18.03-.215.115l-.655 3.09c-1.045.02-2.02.2-2.885.505a1.25 1.25 0 0 1 1.09-.62zm-6.13 5.37c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6.24 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm-6.24 4.09c-.06 0-.11.02-.15.06a.717.717 0 0 0-.05.97 4.29 4.29 0 0 0 3.23 1.55c1.47 0 2.65-.96 3.23-1.55a.723.723 0 0 0-.05-.97c-.04-.04-.09-.06-.15-.06-.09 0-.17.04-.23.11-.47.48-1.42 1.27-2.8 1.27-1.38 0-2.33-.79-2.8-1.27a.332.332 0 0 0-.23-.11z"/>
+                        </svg>
+                    </div>
+
+                    <input type="url" id="mediaUrlInput" placeholder="Paste link from TikTok, Instagram, YouTube, Twitter..." aria-label="Media URL" autocomplete="off" required>
+
+                    <button class="clear-input-btn" id="clearInputBtn" aria-label="Clear input" style="display: none;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Quick Settings Toggle Options -->
+                <div class="quick-options">
+                    <div class="quick-select">
+                        <label for="quickMode">Mode</label>
+                        <select id="quickMode">
+                            <option value="auto">Auto (Video/Audio)</option>
+                            <option value="audio">Audio Only (Extract)</option>
+                            <option value="mute">Video Only (Mute)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="quick-select">
+                        <label for="quickQuality">Quality</label>
+                        <select id="quickQuality">
+                            <option value="1080">1080p (Standard)</option>
+                            <option value="max">Max Quality (2K/4K)</option>
+                            <option value="720">720p (Fast)</option>
+                            <option value="480">480p (Low Res)</option>
+                            <option value="360">360p</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Download Submit Button -->
+                <button class="primary-btn" id="downloadBtn">
+                    <span class="btn-text">Download Media</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="download-arrow">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <polyline points="19 12 12 19 5 12"></polyline>
+                    </svg>
+                </button>
+            </section>
+
+            <!-- Loading State Container -->
+            <section class="loading-section card" id="loadingSection" style="display: none;">
+                <div class="loader-circle-container">
+                    <div class="loader-ring"></div>
+                    <div class="loader-inner-glow"></div>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="loader-checkmark" style="display: none;">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                
+                <div class="loading-status">
+                    <h3 id="loadingStatusTitle">Analyzing URL</h3>
+                    <p id="loadingStatusText" class="anim-dots">Connecting to the Cobalt API endpoint...</p>
+                </div>
+
+                <div class="loading-steps">
+                    <div class="step active" id="step-connect">
+                        <div class="step-dot"></div>
+                        <span class="step-label">Connect API</span>
+                    </div>
+                    <div class="step" id="step-process">
+                        <div class="step-dot"></div>
+                        <span class="step-label">Fetch Media</span>
+                    </div>
+                    <div class="step" id="step-ready">
+                        <div class="step-dot"></div>
+                        <span class="step-label">Ready</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section card" id="resultsSection" style="display: none;">
+                <div class="results-header">
+                    <span class="platform-badge" id="resultsPlatformBadge">Platform</span>
+                    <h2 class="media-title" id="resultsMediaTitle">Social Media Media</h2>
+                </div>
+
+                <!-- Preview Box Container -->
+                <div class="preview-box" id="previewBox">
+                    <!-- Dynamic Media Player will be inserted here -->
+                </div>
+
+                <!-- Media Details Grid -->
+                <div class="media-details-grid" id="mediaDetailsGrid" style="display: none;">
+                    <div class="detail-item">
+                        <span class="detail-label">File Type</span>
+                        <span class="detail-val" id="detailType">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Quality</span>
+                        <span class="detail-val" id="detailQuality">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Duration</span>
+                        <span class="detail-val" id="detailDuration">-</span>
+                    </div>
+                </div>
+
+                <!-- Actions Container -->
+                <div class="results-actions">
+                    <!-- Standard Download Button -->
+                    <button class="primary-btn pulse-glow" id="saveFileBtn">
+                        <span class="btn-text">Save Media</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </button>
+
+                    <!-- Row of secondary actions -->
+                    <div class="actions-row">
+                        <button class="secondary-btn" id="copyDirectLinkBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span>Copy Link</span>
+                        </button>
+                        
+                        <a href="#" target="_blank" class="secondary-btn" id="openExternalLinkBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                            <span>Open In Tab</span>
+                        </a>
+                    </div>
+
+                    <!-- Reset / Start New Download Button -->
+                    <button class="text-link-btn" id="resetBtn">Download another link</button>
+                </div>
+            </section>
+
+            <!-- Supported Platforms Badge List -->
+            <section class="platforms-section">
+                <h2>Supported Platforms</h2>
+                <div class="platforms-grid">
+                    <div class="platform-card" data-platform="youtube" style="--brand-color: rgba(255,0,0,0.15); --brand-border: #FF0000;">
+                        <span class="platform-icon text-red">YT</span>
+                        <span>YouTube</span>
+                    </div>
+                    <div class="platform-card" data-platform="tiktok" style="--brand-color: rgba(0,242,254,0.15); --brand-border: #00f2fe;">
+                        <span class="platform-icon text-cyan">TT</span>
+                        <span>TikTok</span>
+                    </div>
+                    <div class="platform-card" data-platform="instagram" style="--brand-color: rgba(225,48,108,0.15); --brand-border: #E1306C;">
+                        <span class="platform-icon text-pink">IG</span>
+                        <span>Instagram</span>
+                    </div>
+                    <div class="platform-card" data-platform="twitter" style="--brand-color: rgba(29,161,242,0.15); --brand-border: #1DA1F2;">
+                        <span class="platform-icon text-blue">X</span>
+                        <span>Twitter / X</span>
+                    </div>
+                    <div class="platform-card" data-platform="reddit" style="--brand-color: rgba(255,69,0,0.15); --brand-border: #FF4500;">
+                        <span class="platform-icon text-orange">RD</span>
+                        <span>Reddit</span>
+                    </div>
+                    <div class="platform-card" data-platform="facebook" style="--brand-color: rgba(24,119,242,0.15); --brand-border: #1877F2;">
+                        <span class="platform-icon text-blue">FB</span>
+                        <span>Facebook</span>
+                    </div>
+                    <div class="platform-card" data-platform="soundcloud" style="--brand-color: rgba(255,85,0,0.15); --brand-border: #FF5500;">
+                        <span class="platform-icon text-orange">SC</span>
+                        <span>SoundCloud</span>
+                    </div>
+                    <div class="platform-card" data-platform="vimeo" style="--brand-color: rgba(26,183,234,0.15); --brand-border: #1ab7ea;">
+                        <span class="platform-icon text-blue">VM</span>
+                        <span>Vimeo</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Made with 💜 as a free client-side downloader. Powered by the open-source <a href="https://github.com/imputnet/cobalt" target="_blank" rel="noopener noreferrer">Cobalt</a> project API.</p>
+            <p class="disclaimer">All processing is done by external APIs. No media files are stored on this server.</p>
+        </footer>
+    </div>
+
+    <!-- Settings Drawer (Modal Side Panel) -->
+    <div class="settings-drawer" id="settingsDrawer">
+        <div class="drawer-overlay" id="settingsOverlay"></div>
+        <div class="drawer-content">
+            <div class="drawer-header">
+                <h2>Downloader Settings</h2>
+                <button class="icon-btn close-btn" id="closeSettingsBtn" aria-label="Close Settings">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="drawer-body">
+                <!-- API Connection Settings -->
+                <fieldset class="settings-section">
+                    <legend>API Endpoint Configuration</legend>
+                    
+                    <div class="form-group">
+                        <label for="settingsInstanceUrl">Cobalt Instance URL</label>
+                        <div class="input-action-row">
+                            <input type="url" id="settingsInstanceUrl" placeholder="https://grapefruit.clxxped.lol" value="https://grapefruit.clxxped.lol">
+                        </div>
+                        <p class="help-text">Instance used to fetch downloads. The official server blocks YouTube; use community instances instead.</p>
+                    </div>
+
+                    <!-- Public Instances Selector -->
+                    <div class="form-group">
+                        <label>Select Active Instance</label>
+                        <div class="instances-select-wrapper">
+                            <select id="instanceQuickSelect">
+                                <option value="https://grapefruit.clxxped.lol" selected>grapefruit.clxxped.lol (Community - YouTube OK)</option>
+                                <option value="https://api.cobalt.tools">Official (api.cobalt.tools - YouTube Blocked)</option>
+                                <option value="https://nuko-c.meowing.de">nuko-c.meowing.de</option>
+                                <option value="https://api.qwkuns.me">api.qwkuns.me</option>
+                                <option value="https://cobaltapi.squair.xyz">cobaltapi.squair.xyz</option>
+                                <option value="https://dog.kittycat.boo">dog.kittycat.boo</option>
+                                <option value="https://lime.clxxped.lol">lime.clxxped.lol</option>
+                                <option value="https://api.cobalt.liubquanti.click">api.cobalt.liubquanti.click</option>
+                                <option value="https://api.cobalt.blackcat.sweeux.org">api.cobalt.blackcat.sweeux.org</option>
+                                <option value="https://melon.clxxped.lol">melon.clxxped.lol</option>
+                            </select>
+                            <button class="secondary-btn btn-sm" id="autoDetectInstanceBtn">
+                                ⚡ Find Best
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Connection Status Panel -->
+                    <div class="connection-status-panel" id="connectionStatusPanel">
+                        <div class="status-indicator">
+                            <span class="status-dot"></span>
+                            <span class="status-label">Status:</span>
+                            <span class="status-value" id="connectionStatusVal">Checking...</span>
+                        </div>
+                        <div class="server-details" id="serverDetailsText" style="display: none;">
+                            <!-- Dynamically updated -->
+                        </div>
+                        <button class="secondary-btn btn-full" id="testConnectionBtn">Test Connection</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="settingsApiKey">API Key / Auth Token (Optional)</label>
+                        <input type="password" id="settingsApiKey" placeholder="Enter key if your self-hosted instance requires it">
+                        <p class="help-text">Only needed for authenticated self-hosted instances.</p>
+                    </div>
+                </fieldset>
+
+                <!-- Advanced Download Preferences -->
+                <fieldset class="settings-section">
+                    <legend>Media Quality & Formats</legend>
+                    
+                    <div class="form-group">
+                        <label for="settingsVideoQuality">Default Video Quality</label>
+                        <select id="settingsVideoQuality">
+                            <option value="1080">1080p (Standard)</option>
+                            <option value="max">Max Quality (4K/2K/1080p source)</option>
+                            <option value="1440">1440p (2K)</option>
+                            <option value="720">720p</option>
+                            <option value="480">480p</option>
+                            <option value="360">360p</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="settingsAudioFormat">Default Audio Format</label>
+                        <select id="settingsAudioFormat">
+                            <option value="mp3">MP3 (Highly Compatible)</option>
+                            <option value="best">Best Quality (Native)</option>
+                            <option value="wav">WAV (Lossless)</option>
+                            <option value="opus">Opus (Optimized)</option>
+                            <option value="ogg">Ogg</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="settingsFilenameStyle">Filename Template</label>
+                        <select id="settingsFilenameStyle">
+                            <option value="basic">Basic (Title only)</option>
+                            <option value="pretty">Pretty (Title - Author)</option>
+                            <option value="classic">Classic (ID + Style)</option>
+                            <option value="nerdy">Nerdy (Codec, date, details)</option>
+                        </select>
+                    </div>
+                </fieldset>
+
+                <!-- General Preferences (Toggles) -->
+                <fieldset class="settings-section">
+                    <legend>Advanced Switches</legend>
+                    
+                    <div class="toggle-group">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="settingsTikTokAudio">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <div class="toggle-label">
+                            <span class="title">TikTok Original Audio</span>
+                            <span class="desc">Download original full-length sound from TikTok.</span>
+                        </div>
+                    </div>
+
+                    <div class="toggle-group">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="settingsAllowH265">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <div class="toggle-label">
+                            <span class="title">Allow H.265 / HEVC</span>
+                            <span class="desc">May result in smaller files but less browser compatibility.</span>
+                        </div>
+                    </div>
+
+                    <div class="toggle-group">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="settingsConvertGif">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <div class="toggle-label">
+                            <span class="title">Convert Twitter/X animations to GIF</span>
+                            <span class="desc">Converts short MP4 animations to actual .gif files.</span>
+                        </div>
+                    </div>
+
+                    <div class="toggle-group">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="settingsDisableMetadata" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <div class="toggle-label">
+                            <span class="title">Disable File Metadata</span>
+                            <span class="desc">Prevents writing titles/tags directly into downloaded media.</span>
+                        </div>
+                    </div>
+
+                    <div class="toggle-group">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="settingsAlwaysProxy">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <div class="toggle-label">
+                            <span class="title">Always Tunnel (Proxy)</span>
+                            <span class="desc">Forces routing of all media streams through the Cobalt API (helpful for CORS/geoblocks).</span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            
+            <div class="drawer-footer">
+                <button class="secondary-btn" id="resetSettingsBtn">Reset Defaults</button>
+                <button class="primary-btn" id="saveSettingsBtn">Save Options</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Controller -->
+    <script src="app.js"></script>
+</body>
+</html>
