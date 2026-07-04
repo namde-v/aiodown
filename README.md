@@ -28,9 +28,9 @@ Running through an HTTP server ensures correct local origin handling.
 1. Make sure you have [Node.js](https://nodejs.org) installed.
 2. Open a terminal in this folder and run:
    ```bash
-   npm start
+   npx http-server . -p 3000 -o
    ```
-3. Your browser will automatically open to `http://localhost:3000`.
+3. This downloads and runs a local server, opening your browser directly to `http://localhost:3000`.
 
 ---
 
